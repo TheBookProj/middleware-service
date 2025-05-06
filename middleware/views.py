@@ -22,17 +22,19 @@ def proxy(request):
             return JsonResponse({"error": "Unknown host."}, status=400)
 
         # Checking for valid authorization token
-        if 'Authorization' in request.headers:
-            id_token = request.headers['Authorization']
-        else:
-            return JsonResponse({"error": "No authorization token provided."}, status=400)
-        
-        try:
-            decoded_token = auth.verify_id_token(id_token)
-        except auth.RevokedIdTokenError:
-            return JsonResponse({"error": "Revoked authorization token."}, status=401)
-        except auth.InvalidIdTokenError:
-            return JsonResponse({"error": "Invalid authorization token."}, status=401)
+        bypassAuth = ['/users/add']
+        if path not in bypassAuth:
+            if 'Authorization' in request.headers:
+                id_token = request.headers['Authorization'].split(' ')[1]
+            else:
+                return JsonResponse({"error": "No authorization token provided."}, status=400)
+            
+            try:
+                decoded_token = auth.verify_id_token(id_token)
+            except auth.RevokedIdTokenError:
+                return JsonResponse({"error": "Revoked authorization token."}, status=401)
+            except auth.InvalidIdTokenError:
+                return JsonResponse({"error": "Invalid authorization token."}, status=401)
         
         # Sending request
         if method == "GET":
@@ -44,7 +46,7 @@ def proxy(request):
             else:
                 resp = requests.put(url)
         else:
-           return JsonResponse({"error": "Unknown method."}, status=400)
+            return JsonResponse({"error": "Unknown method."}, status=400)
         
         return JsonResponse(resp.json(), status=resp.status_code, safe=False)
     except:

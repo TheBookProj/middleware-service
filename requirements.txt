@@ -4,3 +4,4 @@ django-environ
 python-dotenv
 firebase-admin
 djangorestframework
+django-cors-headers

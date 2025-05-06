@@ -14,6 +14,10 @@ from pathlib import Path
 import environ
 import os
 import configparser
+import sys
+from . import firebase_config
+
+firebase_config.initialize_firebase()
 
 INI_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "settings.ini")
 
@@ -62,6 +66,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -72,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'middleware.urls'
@@ -89,6 +95,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
 ]
 
 WSGI_APPLICATION = 'middleware.wsgi.application'
