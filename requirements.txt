@@ -1,0 +1,6 @@
+django
+firebase-admin
+django-environ
+python-dotenv
+firebase-admin
+djangorestframework

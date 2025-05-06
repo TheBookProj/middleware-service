@@ -1,0 +1,15 @@
+# Bytecode and cache files
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Virtual environment
+venv/
+
+# Django secret files
+*.env
+*.json
+*.ini
+
+# Migrations
+*/migrations/__pycache__/
