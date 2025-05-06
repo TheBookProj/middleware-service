@@ -14,9 +14,9 @@ def proxy(request):
         # Creating URL
         method = request.method
         path = request.get_full_path()
-        if path.startswith("/users"):
+        if path.startswith("/users/"):
             url = f"{settings.HOST["USERS"]}{path}"
-        elif path.startswith("/books"):
+        elif path.startswith("/books/"):
             url = f"{settings.HOST["BOOKS"]}{path}"
         else:
             return JsonResponse({"error": "Unknown host."}, status=400)
