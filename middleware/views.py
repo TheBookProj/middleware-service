@@ -22,8 +22,8 @@ def proxy(request):
             return JsonResponse({"error": "Unknown host."}, status=400)
 
         # Checking for valid authorization token
-        bypassAuth = ['/users/add']
-        if path not in bypassAuth:
+        bypass_auth = ['/users/add']
+        if path not in bypass_auth:
             if 'Authorization' in request.headers:
                 id_token = request.headers['Authorization'].split(' ')[1]
             else:
