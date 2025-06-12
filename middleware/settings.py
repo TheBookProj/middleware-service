@@ -33,12 +33,14 @@ ENV = env("ENV", default="development")
 if ENV == "development":
     HOST = {
         "USERS": config.get("users-service", "LOCAL_BASE_URL"),
-        "BOOKS": config.get("books-service", "LOCAL_BASE_URL")
+        "BOOKS": config.get("books-service", "LOCAL_BASE_URL"),
+        "BOOK-USER": config.get("book-user-service", "LOCAL_BASE_URL")
     }
 else:
     HOST = {
         "USERS": config.get("users-service", "PROD_BASE_URL"),
-        "BOOKS": config.get("books-service", "PROD_BASE_URL")
+        "BOOKS": config.get("books-service", "PROD_BASE_URL"),
+        "BOOK-USER": config.get("book-user-service", "PROD_BASE_URL")
     }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

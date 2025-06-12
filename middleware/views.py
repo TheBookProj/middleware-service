@@ -8,7 +8,7 @@ from firebase_admin import auth
 
 # Create your views here.
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def proxy(request):
     try:
         # Creating URL
@@ -18,6 +18,8 @@ def proxy(request):
             url = f"{settings.HOST["USERS"]}{path}"
         elif path.startswith("/books/"):
             url = f"{settings.HOST["BOOKS"]}{path}"
+        elif path.startswith("/book-user/"):
+            url = f"{settings.HOST["BOOK-USER"]}{path}"
         else:
             return JsonResponse({"error": "Unknown host."}, status=400)
 
@@ -27,7 +29,7 @@ def proxy(request):
             if 'Authorization' in request.headers:
                 id_token = request.headers['Authorization'].split(' ')[1]
             else:
-                return JsonResponse({"error": "No authorization token provided."}, status=400)
+                return JsonResponse({"error": "No authorization token provided."}, status=401)
             
             try:
                 decoded_token = auth.verify_id_token(id_token)
@@ -39,6 +41,8 @@ def proxy(request):
         # Sending request
         if method == "GET":
             resp = requests.get(url)
+        elif method == "DELETE":
+            resp = requests.delete(url)
         elif method == "PUT":
             data = json.loads(request.body.decode("utf-8") or "{}")
             if data is not None:
